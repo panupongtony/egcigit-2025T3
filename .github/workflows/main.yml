@@ -1,0 +1,19 @@
+name: Publish Node Docker
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build & Push Image
+        run:
+          echo "${{ secrets.DOCKERPASSWORD }}"| docker login -u "${{ secrets.DOCKERUSERNAME }}" --password-stdin
+          docker image build -t "${{ secrets.DOCKERUSERNAME }}/egcigit-2025T3:latest"
+          docker push "${{ secrets.DOCKERUSERNAME }}/egcigit-2025T3:latest"
+          
+        
